@@ -1,3 +1,7 @@
+// Copyright 2022 Redglyph
+//
+// Unit tests
+
 #![cfg(test)]
 use crate::IntLog;
 

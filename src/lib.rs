@@ -1,3 +1,7 @@
+// Copyright 2022 Redglyph
+//
+// Base 10 and 2 logarithm functions for integer types.
+
 use num_traits::Zero;
 
 mod tests;
