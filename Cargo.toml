@@ -1,7 +1,16 @@
 [package]
 name = "ilog"
+description = "Base 10 and 2 logarithm functions for integer types."
 version = "0.1.0"
 edition = "2021"
+authors = ["Redglyph"]
+categories = ["algorithms", "mathematics"]
+documentation = "https://docs.rs/ilog"
+homepage = "https://github.com/blueglyph/ilog"
+keywords = ["logarithm", "integer"]
+license-file = "LICENSE-MIT"
+repository = "https://github.com/blueglyph/ilog"
+readme = "README.md"
 
 [dependencies]
 num-traits = "0"

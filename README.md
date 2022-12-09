@@ -4,7 +4,7 @@
 
 Base 10 and 2 logarithm functions for integer types.
 
-The `IntLog` trait defines the following functions:
+The `IntLog` trait defines the following methods:
 
 ```rust
 fn log10(self) -> usize
@@ -12,6 +12,15 @@ fn log2(self) -> usize
 fn checked_log10(self) -> Option<usize>
 fn checked_log2(self) -> Option<usize>
 ```
+
+The `log2` and `log10` methods are optimized for the integer width and are
+`[inline]` as long as the code remains small enough. They typically use constant tables
+that are only stored once, even if the methods using them are inlined multiple times.
+
+The **checked** versions of the methods, `checked_log2` and `checked_log10`,
+return `None` if the logarithm is undefined for the parameter value, whereas the unchecked
+methods mentioned above simply panic. A default implementation is provided in the trait, and in
+most cases they needn't be overidden.
 
 ## Examples
 

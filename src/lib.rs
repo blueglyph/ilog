@@ -8,7 +8,16 @@ mod tests;
 
 // =============================================================================================
 
-/// Provides logarithms for integer types.
+/// Trait that provides logarithms for integer types.
+///
+/// The [IntLog::log2] and [IntLog::log10] methods are optimized for the integer width and are
+/// `[inline]` as long as the code remains small enough. They typically use constant tables
+/// that are only stored once, even if the methods using them are inlined multiple times.
+///
+/// The **checked** versions of the methods, [IntLog::checked_log2] and [IntLog::checked_log10],
+/// return `None` if the logarithm is undefined for the parameter value, whereas the unchecked
+/// methods mentioned above simply panic. A default implementation is provided in the trait, and in
+/// most cases they needn't be overidden.
 pub trait IntLog {
     /// Returns the largest integer less than or equal to the base 10 logarithm of the integer.
     fn log10(self) -> usize;
