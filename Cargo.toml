@@ -8,7 +8,7 @@ categories = ["algorithms", "mathematics"]
 documentation = "https://docs.rs/ilog"
 homepage = "https://github.com/blueglyph/ilog"
 keywords = ["logarithm", "integer"]
-license-file = "LICENSE-MIT"
+license = "MIT"
 repository = "https://github.com/blueglyph/ilog"
 readme = "README.md"
 

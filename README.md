@@ -1,6 +1,9 @@
 # ilog
 
+[![crate](https://img.shields.io/crates/v/ilog.svg)](https://crates.io/crates/ilog)
+[![documentation](https://docs.rs/ilog/badge.svg)](https://docs.rs/ilog)
 [![build status](https://github.com/blueglyph/ilog/actions/workflows/master.yml/badge.svg)](https://github.com/blueglyph/ilog/actions)
+[![crate](https://img.shields.io/crates/l/ilog.svg)](https://github.com/blueglyph/ilog/blob/master/LICENSE-MIT)
 
 Base 10 and 2 logarithm functions for integer types.
 
@@ -54,4 +57,4 @@ The `ilog` crate is tested for rustc 1.65 and greater.
 
 ## License
 
-Licensed under [MIT license](http://opensource.org/licenses/MIT).
+Licensed under [MIT license](https://choosealicense.com/licenses/mit/).
