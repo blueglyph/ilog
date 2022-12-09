@@ -58,8 +58,7 @@ pub trait IntLog {
 
 // ---------------------------------------------------------------------------------------------
 
-const LOG10_U32_TABLE: [u32; 11] = [0, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999,
-    0xFFFFFFFF];
+const LOG10_U32_TABLE: [u32; 11] = [0, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999, u32::MAX];
 
 impl IntLog for u32 {
     /// Returns the largest integer less than or equal to the base 10 logarithm of the integer.
@@ -74,7 +73,7 @@ impl IntLog for u32 {
     #[inline]
     fn log10(self) -> usize {
         let y = (19 * (31 - self.leading_zeros() as usize)) >> 6;
-        y + ((LOG10_U32_TABLE[y + 1].wrapping_sub(self)) >> 31) as usize
+        y + (LOG10_U32_TABLE[y + 1].wrapping_sub(self) >> 31) as usize
     }
 
     /// Returns the largest integer less than or equal to the base 2 logarithm of the integer.
@@ -94,10 +93,9 @@ impl IntLog for u32 {
 
 // ---------------------------------------------------------------------------------------------
 
-const LOG10_U64_TABLE: [u64; 21] = [0, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999,
+const LOG10_U64_TABLE: [u64; 20] = [0, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999,
     9999999999, 99999999999, 999999999999, 9999999999999, 99999999999999, 999999999999999,
-    9999999999999999, 99999999999999999, 999999999999999999, 9999999999999999999,
-    0xFFFFFFFF_FFFFFFFF];
+    9999999999999999, 99999999999999999, 999999999999999999, 9999999999999999999];
 
 impl IntLog for u64 {
 
@@ -113,7 +111,7 @@ impl IntLog for u64 {
     #[inline]
     fn log10(self) -> usize {
         let y = (19 * (63 - self.leading_zeros() as usize)) >> 6;
-        y + ((LOG10_U64_TABLE[y + 1].wrapping_sub(self)) >> 63) as usize
+        y + (LOG10_U64_TABLE[y + 1].wrapping_sub(self) >> 63) as usize
     }
 
     /// Returns the largest integer less than or equal to the base 2 logarithm of the integer.

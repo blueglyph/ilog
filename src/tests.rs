@@ -22,7 +22,6 @@ fn log10_u32() {
 }
 
 #[test]
-/// Computes floor(log(base=2, x))
 fn log2_u32() {
     let mut value = 1_u32;
     for i in 1..=31 {
@@ -37,16 +36,14 @@ fn log2_u32() {
 }
 
 #[test]
-/// Computes floor(log(base=10, x))
 fn log10_u64() {
     let mut value = 1_u64;
-    for i in 1..=18 {
+    for i in 1..=19 {
         value *= 10;
         assert_eq!((value - 1).log10(), i - 1);
         assert_eq!(value.log10(), i);
     }
     assert_eq!(1_u64.log10(), 0);
-    assert_eq!(9_999_999_999_999_999_999_u64.log10(), 18);
     assert_eq!(u64::MAX.log10(), 19);
     assert_eq!(u64::checked_log10(0), None);
     assert_eq!(u64::checked_log10(1), Some(0));
@@ -54,7 +51,6 @@ fn log10_u64() {
 }
 
 #[test]
-/// Computes floor(log(base=2, x))
 fn log2_u64() {
     let mut value = 1_u64;
     for i in 1..=63 {
