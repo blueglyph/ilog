@@ -1,5 +1,7 @@
 # ilog
 
+[![build status](https://github.com/blueglyph/ilog/actions/workflows/master.yml/badge.svg)](https://github.com/blueglyph/ilog/actions)
+
 Base 10 and 2 logarithm functions for integer types.
 
 The `IntLog` trait defines the following functions:
