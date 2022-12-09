@@ -64,3 +64,33 @@ fn log2_u64() {
     assert_eq!(u64::checked_log2(u64::MAX), Some(63));
 }
 
+#[test]
+fn log10_u128() {
+    let mut value = 1_u128;
+    for i in 1..=37 {
+        value *= 10;
+        assert_eq!((value - 1).log10(), i - 1);
+        assert_eq!(value.log10(), i);
+    }
+    assert_eq!(1_u128.log10(), 0);
+    assert_eq!(99999999999999999999999999999999999999_u128.log10(), 37);
+    assert_eq!(u128::MAX.log10(), 38);
+    assert_eq!(u128::checked_log10(0), None);
+    assert_eq!(u128::checked_log10(1), Some(0));
+    assert_eq!(u128::checked_log10(u128::MAX), Some(38));
+}
+
+#[test]
+fn log2_u128() {
+    let mut value = 1_u128;
+    for i in 1..=127 {
+        value *= 2;
+        assert_eq!((value - 1).log2(), i - 1);
+        assert_eq!(value.log2(), i);
+    }
+    assert_eq!(u128::MAX.log2(), 127);
+    assert_eq!(u128::checked_log2(0), None);
+    assert_eq!(u128::checked_log2(1), Some(0));
+    assert_eq!(u128::checked_log2(u128::MAX), Some(127));
+}
+
