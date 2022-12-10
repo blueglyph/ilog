@@ -13,4 +13,5 @@ repository = "https://github.com/blueglyph/ilog"
 readme = "README.md"
 
 [dependencies]
-num-traits = "0"
+
+

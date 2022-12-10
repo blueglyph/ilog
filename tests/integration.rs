@@ -1,6 +1,6 @@
 // Copyright 2022 Redglyph
 //
-// Integration tests: tests that all the functionality is accessible and works as expected.
+// Integration tests: tests that all the functionalities are accessible and work as expected.
 
 use ilog::IntLog;
 
@@ -18,27 +18,45 @@ macro_rules! intg_log {
             let mut value1: $SelfT = 1 << $Exp2;
             let value2: $SelfT = 1 << $Exp2;
             value1 -= 1;
+            // form 1
             let value1_log2 = value1.log2();
             let value1_log10 = value1.log10();
+            // form 2
             let value2_log2 = <$SelfT>::log2(value2);
             let value2_log10 = <$SelfT>::log10(value2);
-            assert_eq!(value1_log2, $Exp2 - 1, "log2({value1})");
-            assert_eq!(value1_log10, $Exp10, "log10({value1})");
-            assert_eq!(value2_log2, $Exp2, "log2({value2})");
-            assert_eq!(value2_log10, $Exp10, "log10({value2})");
+            // reference
+            let ref_value1 = &value1;
+            let ref_value1_log2 = ref_value1.log2();
+            let ref_value1_log10 = ref_value1.log10();
 
+            assert_eq!(value1_log2, $Exp2 - 1, "log2(value1)");
+            assert_eq!(value1_log10, $Exp10, "log10(value1)");
+            assert_eq!(value2_log2, $Exp2, "log2(value2)");
+            assert_eq!(value2_log10, $Exp10, "log10(value2)");
+            assert_eq!(ref_value1_log2, $Exp2 - 1, "log2(ref_value1)");
+            assert_eq!(ref_value1_log10, $Exp10, "log10(ref_value1)");
+
+            // form 1
             let value1_chk_log2 = value1.checked_log2();
             let value1_chk_log10 = value1.checked_log10();
+            // form 2
             let value2_chk_log2 = <$SelfT>::checked_log2(value2);
             let value2_chk_log10 = <$SelfT>::checked_log10(value2);
+            // reference
+            let ref_value1_chk_log2 = ref_value1.checked_log2();
+            let ref_value1_chk_log10 = ref_value1.checked_log10();
+            // forbidden values
             let zero_chk_log2 = <$SelfT>::checked_log2(0);
             let zero_chk_log10 = <$SelfT>::checked_log10(0);
             let forbid_chk_log2 = <$SelfT>::checked_log2($Forbidden);
             let forbid_chk_log10 = <$SelfT>::checked_log10($Forbidden);
-            assert_eq!(value1_chk_log2, Some($Exp2 - 1), "checked_log2({value1})");
-            assert_eq!(value1_chk_log10, Some($Exp10), "checked_log10({value1})");
-            assert_eq!(value2_chk_log2, Some($Exp2), "checked_log2({value2})");
-            assert_eq!(value2_chk_log10, Some($Exp10), "checked_log10({value2})");
+
+            assert_eq!(value1_chk_log2, Some($Exp2 - 1), "checked_log2(value1)");
+            assert_eq!(value1_chk_log10, Some($Exp10), "checked_log10(value1)");
+            assert_eq!(value2_chk_log2, Some($Exp2), "checked_log2(value2)");
+            assert_eq!(value2_chk_log10, Some($Exp10), "checked_log10(value2)");
+            assert_eq!(ref_value1_chk_log2, Some($Exp2 - 1), "checked_log2(ref_value1)");
+            assert_eq!(ref_value1_chk_log10, Some($Exp10), "checked_log10(ref_value1)");
             assert_eq!(zero_chk_log2, None, "checked_log2(0)");
             assert_eq!(zero_chk_log10, None, "checked_log10(0)");
             assert_eq!(forbid_chk_log2, None, "checked_log2({})", $Forbidden);

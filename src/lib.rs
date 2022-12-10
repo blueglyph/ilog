@@ -1,9 +1,7 @@
 // Copyright 2022 Redglyph
 //
-// Base 10 and 2 logarithm functions for integer types:
+// Base 10 and 2 logarithm functions for integer types and their references:
 // u8, i8, u16, i16, u32, i32, u64, i64, u128, i128, usize, isize
-
-use num_traits::Zero;
 
 mod tests;
 
@@ -17,13 +15,12 @@ mod tests;
 ///
 /// The **checked** versions of the methods, [IntLog::checked_log2] and [IntLog::checked_log10],
 /// return `None` if the logarithm is undefined for the parameter value, whereas the unchecked
-/// methods mentioned above simply panic. A default implementation is provided in the trait, and in
-/// most cases they needn't be overidden.
+/// methods mentioned above simply panic or return a wrong value.
 pub trait IntLog {
     /// Returns the largest integer less than or equal to the base 10 logarithm of the integer.
     ///
     /// Logarithms are only defined on positive values, calling `log10` with a null or a negative
-    /// argument may trigger a panic or return an undefined value.
+    /// argument may trigger a panic or return a wrong value.
     /// See [checked_log10](Self::checked_log10) for a method that checks its argument first.
     ///
     /// # Examples
@@ -38,7 +35,7 @@ pub trait IntLog {
     /// Returns the largest integer less than or equal to the base 2 logarithm of the integer.
     ///
     /// Logarithms are only defined on positive values, calling `log10` with a null or a negative
-    /// argument may trigger a panic or return an undefined value.
+    /// argument may trigger a panic or return a wrong value.
     /// See [checked_log2](Self::checked_log2) for a method that checks its argument first.
     ///
     /// # Examples
@@ -60,10 +57,7 @@ pub trait IntLog {
     /// assert_eq!(u64::checked_log10(99), Some(1));
     /// assert_eq!(0_u32.checked_log10(), None);
     /// ```
-    #[inline]
-    fn checked_log10(self) -> Option<usize> where Self: PartialOrd + Sized + Zero {
-        if self > Self::zero() { Some(self.log10()) } else { None }
-    }
+    fn checked_log10(self) -> Option<usize>;
 
     /// Checked base 10 logarithm. Returns the largest integer less than or equal to the base 10
     /// logarithm of the integer, or `None` if it doesn't exist.
@@ -75,14 +69,36 @@ pub trait IntLog {
     /// assert_eq!(u64::checked_log2(63), Some(5));
     /// assert_eq!(0_u32.checked_log2(), None);
     /// ```
-    #[inline]
-    fn checked_log2(self) -> Option<usize> where Self: PartialOrd + Sized + Zero {
-        if self > Self::zero() { Some(self.log2()) } else { None }
-    }
+    fn checked_log2(self) -> Option<usize>;
 }
 
 // ---------------------------------------------------------------------------------------------
 
+/// Expands IntLog trait to references
+macro_rules! forward_ref_intlog {
+    ($imp:ident, $t:ty) => {
+        impl $imp for &$t {
+            #[inline]
+            fn log10(self) -> usize {
+                $imp::log10(*self)
+            }
+            #[inline]
+            fn log2(self) -> usize {
+                $imp::log2(*self)
+            }
+            #[inline]
+            fn checked_log10(self) -> Option<usize> {
+                $imp::checked_log10(*self)
+            }
+            #[inline]
+            fn checked_log2(self) -> Option<usize> {
+                $imp::checked_log2(*self)
+            }
+        }
+    }
+}
+
+/// Implements IntLog trait for unsigned integer type
 macro_rules! impl_unsigned_log {
     ($SelfT: ty, $Msb: expr, $ApproxMul: expr, $ApproxShr: expr, $Table: ident) => {
         impl IntLog for $SelfT {
@@ -96,10 +112,23 @@ macro_rules! impl_unsigned_log {
             fn log2(self) -> usize {
                 $Msb - self.leading_zeros() as usize
             }
+
+            #[inline]
+            fn checked_log10(self) -> Option<usize> {
+                if self > 0 { Some(self.log10()) } else { None }
+            }
+
+            #[inline]
+            fn checked_log2(self) -> Option<usize> {
+                if self > 0 { Some(self.log2()) } else { None }
+            }
         }
+
+        forward_ref_intlog!(IntLog, $SelfT);
     }
 }
 
+/// Implements IntLog trait for signed integer type
 macro_rules! impl_signed_log {
     ($SelfT: ty, $UnsignedT: ty) => {
         impl IntLog for $SelfT {
@@ -112,7 +141,19 @@ macro_rules! impl_signed_log {
             fn log2(self) -> usize {
                 <$UnsignedT>::log2(self as $UnsignedT)
             }
+
+            #[inline]
+            fn checked_log10(self) -> Option<usize> {
+                if self > 0 { Some(<$UnsignedT>::log10(self as $UnsignedT)) } else { None }
+            }
+
+            #[inline]
+            fn checked_log2(self) -> Option<usize> {
+                if self > 0 { Some(<$UnsignedT>::log2(self as $UnsignedT)) } else { None }
+            }
         }
+
+        forward_ref_intlog!(IntLog, $SelfT);
     }
 }
 

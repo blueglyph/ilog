@@ -55,6 +55,10 @@ ilog = "0"
 
 The `ilog` crate is tested for rustc 1.65 and greater.
 
+## Releases
+
+[RELEASES.md](RELEASES.md) keeps a log of all the releases.
+
 ## License
 
 Licensed under [MIT license](https://choosealicense.com/licenses/mit/).
