@@ -3,17 +3,20 @@
 // Base 10 and 2 logarithm functions for integer types and their references:
 // u8, i8, u16, i16, u32, i32, u64, i64, u128, i128, usize, isize
 
+#![warn(clippy::pedantic)]
+#![allow(clippy::unreadable_literal)]
+
 mod tests;
 
 // =============================================================================================
 
 /// Trait that provides logarithms for integer types.
 ///
-/// The [IntLog::log2] and [IntLog::log10] methods are optimized for the integer width and are
-/// `[inline]` as long as the code remains small enough. They typically use constant tables
+/// The [`log2`](IntLog::log2) and [`log10`](IntLog::log10) methods are optimized for the integer width and are
+/// `[inline]` since the code remains small enough. They typically use constant tables
 /// that are only stored once, even if the methods using them are inlined multiple times.
 ///
-/// The **checked** versions of the methods, [IntLog::checked_log2] and [IntLog::checked_log10],
+/// The **checked** versions of the methods, [`checked_log2`](IntLog::checked_log2) and [`checked_log10`](IntLog::checked_log10),
 /// return `None` if the logarithm is undefined for the parameter value, whereas the unchecked
 /// methods mentioned above simply panic or return a wrong value.
 pub trait IntLog {
@@ -21,7 +24,7 @@ pub trait IntLog {
     ///
     /// Logarithms are only defined on positive values, calling `log10` with a null or a negative
     /// argument may trigger a panic or return a wrong value.
-    /// See [checked_log10](Self::checked_log10) for a method that checks its argument first.
+    /// See [`checked_log10`](Self::checked_log10) for a method that checks its argument first.
     ///
     /// # Examples
     /// ```
@@ -36,7 +39,7 @@ pub trait IntLog {
     ///
     /// Logarithms are only defined on positive values, calling `log10` with a null or a negative
     /// argument may trigger a panic or return a wrong value.
-    /// See [checked_log2](Self::checked_log2) for a method that checks its argument first.
+    /// See [`checked_log2`](Self::checked_log2) for a method that checks its argument first.
     ///
     /// # Examples
     /// ```
@@ -74,7 +77,7 @@ pub trait IntLog {
 
 // ---------------------------------------------------------------------------------------------
 
-/// Expands IntLog trait to references
+/// Expands `IntLog` trait to references
 macro_rules! forward_ref_intlog {
     ($imp:ident, $t:ty) => {
         impl $imp for &$t {
@@ -98,7 +101,7 @@ macro_rules! forward_ref_intlog {
     }
 }
 
-/// Implements IntLog trait for unsigned integer type
+/// Implements `IntLog` trait for unsigned integer type
 macro_rules! impl_unsigned_log {
     ($SelfT: ty, $Msb: expr, $ApproxMul: expr, $ApproxShr: expr, $Table: ident) => {
         impl IntLog for $SelfT {
@@ -128,7 +131,7 @@ macro_rules! impl_unsigned_log {
     }
 }
 
-/// Implements IntLog trait for signed integer type
+/// Implements `IntLog` trait for signed integer type
 macro_rules! impl_signed_log {
     ($SelfT: ty, $UnsignedT: ty) => {
         impl IntLog for $SelfT {

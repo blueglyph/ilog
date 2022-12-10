@@ -2,6 +2,8 @@
 //
 // Integration tests: tests that all the functionalities are accessible and work as expected.
 
+#![cfg(test)]
+
 use ilog::IntLog;
 
 /// Integration tests of logarithms for signed and unsigned types.
@@ -11,7 +13,7 @@ macro_rules! intg_log {
         $SelfT: ty,         // type to test
         $Exp10: expr,       // expected log10 value
         $Exp2: expr,        // expected log2 value (used to calculate the test value)
-        $Forbidden: expr    // forbidden value (for signed types)
+        $Forbidden: expr    // extra forbidden value (e.g. negative value for signed types)
     ) => {
         #[test]
         fn $Name() {

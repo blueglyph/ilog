@@ -1,6 +1,8 @@
 # 0.1.2 (2022-12-10)
 
 - Added reference implementations for all types.
+- Removed default `IntLog` implementations.
+- Removed `num-traits` dependency.
 
 # 0.1.1 (2022-12-09)
 
@@ -11,4 +13,4 @@
 
 First version
 
-- IntLog::{log2, log10} implementation for u32, u64
+- IntLog::{log2, log10} implementation for u32, u64.
