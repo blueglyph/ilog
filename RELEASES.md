@@ -1,3 +1,7 @@
+# 0.1.3 (2022-12-12)
+
+- Added a comment about unstable_name_collisions for versions of rustc earlier than 1.65.
+
 # 0.1.2 (2022-12-10)
 
 - Added reference implementations for all types.

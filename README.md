@@ -52,7 +52,23 @@ ilog = "0"
 
 ## Compatibility
 
-The `ilog` crate is tested for rustc 1.65 and greater.
+The `ilog` crate is tested for rustc 1.65 and greater, on Windows 64-bit and Linux 64/32-bit platforms.
+
+Note that in versions 1.64 and earlier, `log`, `log2` and `log10` were nightly experimental `core::num` methods, which were then [renamed](https://github.com/rust-lang/rust/commit/c18f22058bc351224ad2b89e9d352e050275f475)
+respectively to `ilog`, `ilog2` and `ilog10` in version 1.65 (and are still experimental). This was unknown to the author when the
+crate was first published.
+
+Should you need to use this crate with earlier versions of rustc, the warnings can be masked with this file directive:
+
+```rust
+    #![allow(unstable_name_collisions)]
+```
+
+or with this directive in front of the function using the methods:
+
+```rust
+    #[allow(unstable_name_collisions)]
+```
 
 ## Releases
 
