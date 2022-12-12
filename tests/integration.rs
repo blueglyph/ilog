@@ -93,3 +93,67 @@ intg_log!(log_isize_intg, isize, 2, 9, -1);
 
 intg_log!(log_u128_intg, u128, 2, 9, 0);
 intg_log!(log_i128_intg, i128, 2, 9, -1);
+
+#[test]
+fn log_u32_intgx() {
+    let mut value1: u32 = 1 << 9;
+    let value2: u32 = 1 << 9;
+    value1 -= 1;
+
+    // direct log methods
+    let value1_log2 = value1.log2();
+    let value1_log10 = value1.log10();
+
+    let value2_log2 = <u32>::log2(value2);
+    let value2_log10 = <u32>::log10(value2);
+
+    assert_eq!(value1_log2, 9 - 1, "value1.log2()");
+    assert_eq!(value1_log10, 2, "value1.log10()");
+    assert_eq!(value2_log2, 9, "log2(value2)");
+    assert_eq!(value2_log10, 2, "log10(value2)");
+
+    // checked log methods
+    let value1_chk_log2 = value1.checked_log2();
+    let value1_chk_log10 = value1.checked_log10();
+
+    let value2_chk_log2 = <u32>::checked_log2(value2);
+    let value2_chk_log10 = <u32>::checked_log10(value2);
+
+    let zero_chk_log2 = <u32>::checked_log2(0);
+    let zero_chk_log10 = <u32>::checked_log10(0);
+    let forbid_chk_log2 = <u32>::checked_log2(0);
+    let forbid_chk_log10 = <u32>::checked_log10(0);
+
+    assert_eq!(value1_chk_log2, Some(9 - 1), "value1.checked_log2()");
+    assert_eq!(value1_chk_log10, Some(2), "value1.checked_log10()");
+    assert_eq!(value2_chk_log2, Some(9), "checked_log2(value2)");
+    assert_eq!(value2_chk_log10, Some(2), "checked_log10(value2)");
+    assert_eq!(zero_chk_log2, None, "checked_log2(0)");
+    assert_eq!(zero_chk_log10, None, "checked_log10(0)");
+    assert_eq!(forbid_chk_log2, None, "checked_log2({})", 0);
+    assert_eq!(forbid_chk_log10, None, "checked_log10({})", 0);
+
+    // references
+    let ref_value1 = &value1;
+    let ref_value1_log2 = ref_value1.log2();
+    let ref_value1_log10 = ref_value1.log10();
+    let ref_value1_chk_log2 = ref_value1.checked_log2();
+    let ref_value1_chk_log10 = ref_value1.checked_log10();
+
+    assert_eq!(ref_value1_log2, 9 - 1, "ref_value1.log2()");
+    assert_eq!(ref_value1_log10, 2, "ref_value1.log10()");
+    assert_eq!(ref_value1_chk_log2, Some(9 - 1), "ref_value1.checked_log2()");
+    assert_eq!(ref_value1_chk_log10, Some(2), "ref_value1.checked_log10()");
+
+    // mutable references
+    let refmut_value1 = &mut value1;
+    let refmut_value1_log2 = refmut_value1.log2();
+    let refmut_value1_log10 = refmut_value1.log10();
+    let refmut_value1_chk_log2 = refmut_value1.checked_log2();
+    let refmut_value1_chk_log10 = refmut_value1.checked_log10();
+
+    assert_eq!(refmut_value1_log2, 9 - 1, "refmut_value1.log2()");
+    assert_eq!(refmut_value1_log10, 2, "refmut_value1.log10()");
+    assert_eq!(refmut_value1_chk_log2, Some(9 - 1), "refmut_value1.checked_log2()");
+    assert_eq!(refmut_value1_chk_log10, Some(2), "refmut_value1.checked_log10()");
+}
