@@ -1,3 +1,7 @@
+# 0.1.4 (2022-12-14)
+
+- Made the crate no-std.
+
 # 0.1.3 (2022-12-12)
 
 - Added a comment about unstable_name_collisions for versions of rustc earlier than 1.65.

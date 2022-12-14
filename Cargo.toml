@@ -1,10 +1,10 @@
 [package]
 name = "ilog"
 description = "Base 10 and 2 logarithm functions for integer types."
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 authors = ["Redglyph"]
-categories = ["algorithms", "mathematics"]
+categories = ["algorithms", "mathematics", "no-std"]
 documentation = "https://docs.rs/ilog"
 homepage = "https://github.com/blueglyph/ilog"
 keywords = ["logarithm", "integer"]
@@ -13,5 +13,3 @@ repository = "https://github.com/blueglyph/ilog"
 readme = "README.md"
 
 [dependencies]
-
-

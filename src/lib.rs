@@ -5,6 +5,7 @@
 
 #![warn(clippy::pedantic)]
 #![allow(clippy::unreadable_literal)]
+#![no_std]
 
 mod tests;
 

@@ -5,7 +5,7 @@
 [![build status](https://github.com/blueglyph/ilog/actions/workflows/master.yml/badge.svg)](https://github.com/blueglyph/ilog/actions)
 [![crate](https://img.shields.io/crates/l/ilog.svg)](https://github.com/blueglyph/ilog/blob/master/LICENSE-MIT)
 
-Base 10 and 2 logarithm functions for integer types.
+## Base 10 and 2 logarithm functions for integer types
 
 The `IntLog` trait defines the following methods:
 
@@ -53,6 +53,10 @@ ilog = "0"
 ## Compatibility
 
 The `ilog` crate is tested for rustc 1.65 and greater, on Windows 64-bit and Linux 64/32-bit platforms.
+
+It doesn't require the `std` library, and supports 16-, 32- and 64-bit architectures.
+
+### Rust versions 1.64 and earlier
 
 Note that in versions 1.64 and earlier, `log`, `log2` and `log10` were nightly experimental `core::num` methods, which were then [renamed](https://github.com/rust-lang/rust/commit/c18f22058bc351224ad2b89e9d352e050275f475)
 respectively to `ilog`, `ilog2` and `ilog10` in version 1.65 (and are still experimental). This was unknown to the author when the
