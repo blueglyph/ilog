@@ -2,7 +2,7 @@ name: Rust-version
 
 on:
   schedule:
-    - cron: '40 12 * * 6'
+    - cron: '0 * * * 6'
 
 env:
   CARGO_TERM_COLOR: always
@@ -15,7 +15,9 @@ jobs:
         with: 
           token: ${{ secrets.TOKEN_VERSION }}
       - name: Fetch Rust version
-        run: rustc -V > .github/latest.txt
+        run: |
+          rustc -V
+          rustc -V > .github/latest.txt
       - name: Check for modified files
         id: git-check
         run: echo modified=$([ -z "`git status --porcelain`" ] && echo "false" || echo "true") >> $GITHUB_OUTPUT
