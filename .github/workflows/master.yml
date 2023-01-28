@@ -3,6 +3,8 @@ name: Rust
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - .github/workflows/**
   pull_request:
     branches: [ "master" ]
 
@@ -11,14 +13,13 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: cargo build --verbose
+      run: cargo build --verbose      
     - name: Run tests
       run: |
+        rustc -V
         cargo test --verbose
         cargo test -r --verbose
