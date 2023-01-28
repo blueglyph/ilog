@@ -2,7 +2,7 @@ name: Rust-version
 
 on:
   schedule:
-    - cron: '15 12 * * 6'
+    - cron: '40 12 * * 6'
 
 env:
   CARGO_TERM_COLOR: always
