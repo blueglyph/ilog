@@ -41,15 +41,6 @@ assert_eq!(u32::checked_log2(63), Some(5));
 assert_eq!(0_u32.checked_log2(), None);
 ```
 
-## Usage
-
-Add this dependency to your `Cargo.toml` file:
-
-```toml
-[dependencies]
-ilog = "0"
-```
-
 ## Compatibility
 
 The `ilog` crate is tested for rustc 1.65 and greater, on Windows 64-bit and Linux 64/32-bit platforms.
