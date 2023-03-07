@@ -1,3 +1,7 @@
+# 1.0.0 (2023-03-07)
+
+- Added implementations for `&mut` and `Box<>`
+
 # 0.1.4 (2022-12-14)
 
 - Made the crate no-std.

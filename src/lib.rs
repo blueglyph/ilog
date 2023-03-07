@@ -9,6 +9,9 @@
 
 mod tests;
 
+extern crate alloc;
+use alloc::boxed::Box;
+
 // =============================================================================================
 
 /// Trait that provides logarithms for integer types.
@@ -80,8 +83,8 @@ pub trait IntLog {
 
 /// Expands `IntLog` trait to references
 macro_rules! forward_ref_intlog {
-    ($imp:ident, $t:ty) => {
-        impl $imp for &$t {
+    ($imp:ident for $( $t:ty ),+) => {$(
+        impl $imp for $t {
             #[inline]
             fn log10(self) -> usize {
                 $imp::log10(*self)
@@ -99,7 +102,7 @@ macro_rules! forward_ref_intlog {
                 $imp::checked_log2(*self)
             }
         }
-    }
+    )+}
 }
 
 /// Implements `IntLog` trait for unsigned integer type
@@ -128,7 +131,7 @@ macro_rules! impl_unsigned_log {
             }
         }
 
-        forward_ref_intlog!(IntLog, $SelfT);
+        forward_ref_intlog!(IntLog for &$SelfT, &mut $SelfT, Box<$SelfT>);
     }
 }
 
@@ -157,7 +160,7 @@ macro_rules! impl_signed_log {
             }
         }
 
-        forward_ref_intlog!(IntLog, $SelfT);
+        forward_ref_intlog!(IntLog for &$SelfT, &mut $SelfT, Box<$SelfT>);
     }
 }
 

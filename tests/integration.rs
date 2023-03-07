@@ -5,6 +5,8 @@
 #![cfg(test)]
 
 use ilog::IntLog;
+extern crate alloc;
+use alloc::boxed::Box;
 
 /// Integration tests of logarithms for signed and unsigned types.
 macro_rules! intg_log {
@@ -134,12 +136,34 @@ fn log_u32_intgx() {
     assert_eq!(forbid_chk_log10, None, "checked_log10({})", 0);
 
     // references
+    fn log2(x: impl IntLog) -> usize {
+        x.log2()
+    }
+    fn log10(x: impl IntLog) -> usize {
+        x.log10()
+    }
+    fn checked_log2(x: impl IntLog) -> Option<usize> {
+        x.checked_log2()
+    }
+    fn checked_log10(x: impl IntLog) -> Option<usize> {
+        x.checked_log10()
+    }
+
     let ref_value1 = &value1;
+
     let ref_value1_log2 = ref_value1.log2();
     let ref_value1_log10 = ref_value1.log10();
     let ref_value1_chk_log2 = ref_value1.checked_log2();
     let ref_value1_chk_log10 = ref_value1.checked_log10();
+    assert_eq!(ref_value1_log2, 9 - 1, "ref_value1.log2()");
+    assert_eq!(ref_value1_log10, 2, "ref_value1.log10()");
+    assert_eq!(ref_value1_chk_log2, Some(9 - 1), "ref_value1.checked_log2()");
+    assert_eq!(ref_value1_chk_log10, Some(2), "ref_value1.checked_log10()");
 
+    let ref_value1_log2 = log2(ref_value1);
+    let ref_value1_log10 = log10(ref_value1);
+    let ref_value1_chk_log2 = checked_log2(ref_value1);
+    let ref_value1_chk_log10 = checked_log10(ref_value1);
     assert_eq!(ref_value1_log2, 9 - 1, "ref_value1.log2()");
     assert_eq!(ref_value1_log10, 2, "ref_value1.log10()");
     assert_eq!(ref_value1_chk_log2, Some(9 - 1), "ref_value1.checked_log2()");
@@ -147,13 +171,43 @@ fn log_u32_intgx() {
 
     // mutable references
     let refmut_value1 = &mut value1;
+
     let refmut_value1_log2 = refmut_value1.log2();
     let refmut_value1_log10 = refmut_value1.log10();
     let refmut_value1_chk_log2 = refmut_value1.checked_log2();
     let refmut_value1_chk_log10 = refmut_value1.checked_log10();
-
     assert_eq!(refmut_value1_log2, 9 - 1, "refmut_value1.log2()");
     assert_eq!(refmut_value1_log10, 2, "refmut_value1.log10()");
     assert_eq!(refmut_value1_chk_log2, Some(9 - 1), "refmut_value1.checked_log2()");
     assert_eq!(refmut_value1_chk_log10, Some(2), "refmut_value1.checked_log10()");
+
+    let refmut_value1_log2 = log2(&mut value1);
+    let refmut_value1_log10 = log10(&mut value1);
+    let refmut_value1_chk_log2 = checked_log2(&mut value1);
+    let refmut_value1_chk_log10 = checked_log10(&mut value1);
+    assert_eq!(refmut_value1_log2, 9 - 1, "refmut_value1.log2()");
+    assert_eq!(refmut_value1_log10, 2, "refmut_value1.log10()");
+    assert_eq!(refmut_value1_chk_log2, Some(9 - 1), "refmut_value1.checked_log2()");
+    assert_eq!(refmut_value1_chk_log10, Some(2), "refmut_value1.checked_log10()");
+
+    // boxed references
+    let box_value1 = Box::new(value1);
+
+    let box_value1_log2 = box_value1.clone().log2();
+    let box_value1_log10 = box_value1.clone().log10();
+    let box_value1_chk_log2 = box_value1.clone().checked_log2();
+    let box_value1_chk_log10 = box_value1.clone().checked_log10();
+    assert_eq!(box_value1_log2, 9 - 1, "refmut_value1.log2()");
+    assert_eq!(box_value1_log10, 2, "refmut_value1.log10()");
+    assert_eq!(box_value1_chk_log2, Some(9 - 1), "refmut_value1.checked_log2()");
+    assert_eq!(box_value1_chk_log10, Some(2), "refmut_value1.checked_log10()");
+
+    let box_value1_log2 = log2(box_value1.clone());
+    let box_value1_log10 = log10(box_value1.clone());
+    let box_value1_chk_log2 = checked_log2(box_value1.clone());
+    let box_value1_chk_log10 = checked_log10(box_value1.clone());
+    assert_eq!(box_value1_log2, 9 - 1, "refmut_value1.log2()");
+    assert_eq!(box_value1_log10, 2, "refmut_value1.log10()");
+    assert_eq!(box_value1_chk_log2, Some(9 - 1), "refmut_value1.checked_log2()");
+    assert_eq!(box_value1_chk_log10, Some(2), "refmut_value1.checked_log10()");
 }
