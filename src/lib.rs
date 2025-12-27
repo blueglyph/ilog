@@ -5,6 +5,7 @@
 
 #![warn(clippy::pedantic)]
 #![allow(clippy::unreadable_literal)]
+#![allow(clippy::cast_sign_loss)]
 #![no_std]
 
 mod tests;
@@ -112,7 +113,9 @@ macro_rules! impl_unsigned_log {
             #[inline]
             fn log10(self) -> usize {
                 let y = ($ApproxMul * ($Msb - self.leading_zeros() as usize)) >> $ApproxShr;
-                y + (($Table[y + 1] as $SelfT).wrapping_sub(self) >> $Msb) as usize
+                #[allow(clippy::cast_possible_truncation)]
+                // `as $SelfT` below is fine: tables don't contain values > $SelfT::MAX
+                { y + (($Table[y + 1] as $SelfT).wrapping_sub(self) >> $Msb) as usize }
             }
 
             #[inline]
