@@ -1,3 +1,7 @@
+# 1.0.3 (2026-04-22)
+
+- Updated to Rust 2024 edition and clarified maintenance status
+
 # 1.0.2 (2025-12-27)
 
 - Updated Clippy settings (a warning was returned on a safe operation)
