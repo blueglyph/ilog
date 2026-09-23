@@ -1,3 +1,7 @@
+**IMPORTANT**: This repository has been rehosted elsewhere. Check on crates.io (link below) to see where the latest code is hosted.
+
+---
+
 # ilog
 
 [![crate](https://img.shields.io/crates/v/ilog.svg)](https://crates.io/crates/ilog)
